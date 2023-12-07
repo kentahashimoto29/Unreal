@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FloatingProperty")
 	float FloatSpeed = 20.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FloatingProperty")
+	bool IsFloat;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
