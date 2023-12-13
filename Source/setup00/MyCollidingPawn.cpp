@@ -57,6 +57,12 @@ AMyCollidingPawn::AMyCollidingPawn()
 		// 入力プレイヤーの設定
 		AutoPossessPlayer = EAutoReceiveInput::Player0;
 	}
+
+	// 自作MovementComponentの生成
+	OurMovementComponent =
+		CreateDefaultSubobject<UMyPawnMovementComponent>(TEXT("CustomMovementComponent"));
+
+	OurMovementComponent->UpdatedComponent = RootComponent;
 }
 
 // Called when the game starts or when spawned
@@ -82,7 +88,7 @@ void AMyCollidingPawn::Tick(float DeltaTime)
 // Called to bind functionality to input
 void AMyCollidingPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	APawn::SetupPlayerInputComponent(PlayerInputComponent);
 
 	// MoveYの入力値をMove_YAxis関数へバインドする
 	InputComponent->BindAxis("MoveY", this, &AMyCollidingPawn::Mode_YAxis);
@@ -105,4 +111,19 @@ void AMyCollidingPawn::Mode_XAxis(float AxisValue)
 {
 	//（一秒間に）
 	CurrentVelocity.X = FMath::Clamp(AxisValue, -1.0f, 1.0f) * FloatSpeed;
+}
+
+// 自作MovementComponentクラスを返す
+UMyPawnMovementComponent* AMyCollidingPawn::GetMovementComponent() const
+{
+	return OurMovementComponent;
+}
+
+// 前後方向の移動
+void AMyCollidingPawn::MoveForward(float AxisValue)
+{
+	if (OurMovementComponent && (OurMovementComponent->UpdatedComponent == RootComponent))
+	{
+		OurMovementComponent->AddInputVector(GetActorForwardVector() * AxisValue);
+	}
 }

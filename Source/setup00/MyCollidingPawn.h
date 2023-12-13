@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "MyPawnMovementComponent.h"
 #include "MyCollidingPawn.generated.h"
 
 UCLASS()
@@ -11,8 +12,9 @@ class SETUP00_API AMyCollidingPawn : public APawn
 {
 	GENERATED_BODY()
 
+		UPROPERTY(EditAnywhere)
+		UMyPawnMovementComponent* OurMovementComponent;
 
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FloatingProperty")
 		float FloatSpeed = 300.0f;
 
 
@@ -36,7 +38,12 @@ public:
 	// Xï˚å¸ÇÃà⁄ìÆó Çêßå‰
 	void Mode_XAxis(float AxisValue);
 
+	void MoveForward(float AxisValue);
+
 	// åªç›ÇÃë¨ìx
 	FVector CurrentVelocity;
+
+	virtual UMyPawnMovementComponent* AMyCollidingPawn::GetMovementComponent() const override;
+
 
 };

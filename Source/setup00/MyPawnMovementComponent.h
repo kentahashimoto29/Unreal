@@ -13,5 +13,11 @@ UCLASS()
 class SETUP00_API UMyPawnMovementComponent : public UPawnMovementComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	// çXêVèàóù
+	virtual void TickComponent(float DeltaTime,
+		enum ELevelTick TickType,
+		FActorComponentTickFunction* ThisTickFunction) override;
 };
